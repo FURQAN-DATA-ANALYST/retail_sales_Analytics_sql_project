@@ -1,0 +1,30 @@
+IF OBJECT_ID ('silver.retail_transaction_09_10', 'U') IS NOT NULL
+	DROP TABLE silver.retail_transaction_09_10
+CREATE TABLE silver.retail_transaction_09_10
+(
+    customerID              INT,
+    stock_code              INT,
+    invoice_no              VARCHAR(50),
+    invoice_date            DATETIME,
+    product_description     VARCHAR(50),
+    quantity                INT,
+    unit_price              FLOAT,
+    country                 VARCHAR(50),
+    dwh_create_date         DATETIME2 DEFAULT GETDATE()
+);
+
+IF OBJECT_ID ('silver.retail_transaction_10_11', 'U') IS NOT NULL
+	DROP TABLE silver.retail_transaction_10_11
+CREATE TABLE silver.retail_transaction_10_11
+(
+    customerID              INT,
+    stock_code              INT,
+    invoice_no              VARCHAR(50),
+    invoice_date            DATETIME,
+    product_description     VARCHAR(50),
+    quantity                INT,
+    unit_price              FLOAT,
+    country                 VARCHAR(50),
+    dwh_create_date         DATETIME2 DEFAULT GETDATE()
+);
+
