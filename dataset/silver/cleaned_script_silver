@@ -16,12 +16,12 @@ INSERT INTO silver.retail_transaction_09_10
 -- CLEAN bronze.retail_transaction_09_10
 SELECT
     /* ===================================================
-        CUSTOMER
+                            CUSTOMER
         ================================================== */
         customerID,
 
     /* ===================================================
-        STOCK CODE
+                          STOCK CODE
         ================================================== */
         TRY_CAST(
             CASE 
@@ -31,12 +31,12 @@ SELECT
         ) AS stock_code,
 
     /* ===================================================
-        INVOICE
+                            INVOICE
         ================================================== */
         invoice_no,
 
     /* ===================================================
-        INVOICE DATE
+                         INVOICE DATE
         ================================================== */
         COALESCE(
             TRY_CONVERT(datetime, invoice_date, 120), -- ISO
@@ -44,22 +44,22 @@ SELECT
         ) AS invoice_date,
 
     /* ===================================================
-        PRODUCT DESCRIPTION
+                       PRODUCT DESCRIPTION
         ================================================== */
         TRIM(product_description) AS product_description,
 
     /* ===================================================
-        QUANTITY
+                            QUANTITY
         ================================================== */
         quantity,
 
     /* ===================================================
-        UNIT PRICE
+                            UNIT PRICE
         ================================================== */
         NULLIF(TRY_CAST(unit_price AS FLOAT), 0) AS unit_price,
 
     /* ===================================================
-        COUNTRY
+                            COUNTRY
         ================================================== */
         CASE 
             WHEN TRIM(country) IN ('EIRE', 'Ireland') THEN 'Ireland'
@@ -85,12 +85,12 @@ INSERT INTO silver.retail_transaction_10_11
 -- CLEAN bronze.retail_transaction_10_11
 SELECT
     /* ===================================================
-        CUSTOMER
+                            CUSTOMER
         ================================================== */
         customerID,
 
     /* ==================================================
-        STOCK CODE
+                            STOCK CODE
         ================================================== */
         TRY_CAST(
             CASE 
@@ -100,12 +100,12 @@ SELECT
         ) AS stock_code,
 
     /* ===================================================
-        INVOICE
+                            INVOICE
         ================================================== */
         invoice_no,
 
     /* ===================================================
-        INVOICE DATE
+                         INVOICE DATE
         ================================================== */
         COALESCE(
             TRY_CONVERT(datetime, invoice_date, 120), -- ISO
@@ -113,22 +113,22 @@ SELECT
         ) AS invoice_date,
 
     /* ===================================================
-        PRODUCT DESCRIPTION
+                       PRODUCT DESCRIPTION
         ================================================== */
         TRIM(product_description) AS product_description,
 
     /* ===================================================
-        QUANTITY
+                            QUANTITY
         ================================================== */
         quantity,
 
     /* ===================================================
-        UNIT PRICE
+                            UNIT PRICE
         ================================================== */
         NULLIF(TRY_CAST(unit_price AS FLOAT), 0) AS unit_price,
 
     /* ===================================================
-        COUNTRY
+                            COUNTRY
         ================================================== */
         CASE 
             WHEN TRIM(country) IN ('EIRE', 'Ireland') THEN 'Ireland'
