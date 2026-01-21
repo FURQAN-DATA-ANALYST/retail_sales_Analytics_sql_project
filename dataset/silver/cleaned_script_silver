@@ -1,0 +1,141 @@
+--========================================================
+TRUNCATE TABLE silver.retail_transaction_09_10;
+
+INSERT INTO silver.retail_transaction_09_10
+(
+    customerID,
+    stock_code,
+    invoice_no,
+    invoice_date,
+    product_description,
+    quantity,
+    unit_price,
+    country
+)
+--========================================================
+-- CLEAN bronze.retail_transaction_09_10
+SELECT
+    /* ===================================================
+        CUSTOMER
+        ================================================== */
+        customerID,
+
+    /* ===================================================
+        STOCK CODE
+        ================================================== */
+        TRY_CAST(
+            CASE 
+                WHEN LEN(stock_code) > 5 THEN LEFT(stock_code, 5)
+                ELSE stock_code
+            END AS INT
+        ) AS stock_code,
+
+    /* ===================================================
+        INVOICE
+        ================================================== */
+        invoice_no,
+
+    /* ===================================================
+        INVOICE DATE
+        ================================================== */
+        COALESCE(
+            TRY_CONVERT(datetime, invoice_date, 120), -- ISO
+            TRY_CONVERT(datetime, invoice_date, 103)  -- UK
+        ) AS invoice_date,
+
+    /* ===================================================
+        PRODUCT DESCRIPTION
+        ================================================== */
+        TRIM(product_description) AS product_description,
+
+    /* ===================================================
+        QUANTITY
+        ================================================== */
+        quantity,
+
+    /* ===================================================
+        UNIT PRICE
+        ================================================== */
+        NULLIF(TRY_CAST(unit_price AS FLOAT), 0) AS unit_price,
+
+    /* ===================================================
+        COUNTRY
+        ================================================== */
+        CASE 
+            WHEN TRIM(country) IN ('EIRE', 'Ireland') THEN 'Ireland'
+            ELSE TRIM(country)
+        END AS country
+FROM bronze.retail_transaction_09_10
+
+--========================================================
+TRUNCATE TABLE silver.retail_transaction_10_11;
+
+INSERT INTO silver.retail_transaction_10_11
+(
+    customerID,
+    stock_code,
+    invoice_no,
+    invoice_date,
+    product_description,
+    quantity,
+    unit_price,
+    country
+)
+--========================================================
+-- CLEAN bronze.retail_transaction_10_11
+SELECT
+    /* ===================================================
+        CUSTOMER
+        ================================================== */
+        customerID,
+
+    /* ==================================================
+        STOCK CODE
+        ================================================== */
+        TRY_CAST(
+            CASE 
+                WHEN LEN(stock_code) > 5 THEN LEFT(stock_code, 5)
+                ELSE stock_code
+            END AS INT
+        ) AS stock_code,
+
+    /* ===================================================
+        INVOICE
+        ================================================== */
+        invoice_no,
+
+    /* ===================================================
+        INVOICE DATE
+        ================================================== */
+        COALESCE(
+            TRY_CONVERT(datetime, invoice_date, 120), -- ISO
+            TRY_CONVERT(datetime, invoice_date, 103)  -- UK
+        ) AS invoice_date,
+
+    /* ===================================================
+        PRODUCT DESCRIPTION
+        ================================================== */
+        TRIM(product_description) AS product_description,
+
+    /* ===================================================
+        QUANTITY
+        ================================================== */
+        quantity,
+
+    /* ===================================================
+        UNIT PRICE
+        ================================================== */
+        NULLIF(TRY_CAST(unit_price AS FLOAT), 0) AS unit_price,
+
+    /* ===================================================
+        COUNTRY
+        ================================================== */
+        CASE 
+            WHEN TRIM(country) IN ('EIRE', 'Ireland') THEN 'Ireland'
+            ELSE TRIM(country)
+        END AS country
+
+FROM bronze.retail_transaction_10_11
+--========================================================
+
+
