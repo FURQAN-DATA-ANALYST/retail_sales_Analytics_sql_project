@@ -1,0 +1,67 @@
+-- Create Database 'DataWarehouse'
+CREATE SCHEMA RetailSales
+
+CREATE SCHEMA bronze;
+GO
+CREATE SCHEMA silver;
+GO
+CREATE SCHEMA gold;
+GO
+-- CREATING TABLES FROM CSV FILE DATA.
+-- DDL Script.
+-------------------------------------------------------------------------
+IF OBJECT_ID ('bronze.retail_transaction_09_10', 'U') IS NOT NULL
+	DROP TABLE bronze.retail_transaction_09_10
+CREATE TABLE bronze.retail_transaction_09_10
+(
+    invoice_no              VARCHAR(50),
+    stock_code              VARCHAR(50),
+    product_description     VARCHAR(50),
+    quantity                INT,
+    invoice_date            VARCHAR(50),
+    unit_price              VARCHAR(50),
+    customerID              INT,
+    country                 VARCHAR(50)
+);
+
+
+-- 1 retail_transaction_09_10
+TRUNCATE TABLE bronze.retail_transaction_09_10;
+
+BULK INSERT bronze.retail_transaction_09_10
+FROM 'C:\sql\DataWarehouseProject\online_retail\online_retail_10_11.csv'
+WITH
+(
+	FIRSTROW = 2,
+	FIELDTERMINATOR = ',',
+	TABLOCK
+);
+
+-------------------------------------------------------------------------
+IF OBJECT_ID ('bronze.retail_transaction_10_11', 'U') IS NOT NULL
+	DROP TABLE bronze.retail_transaction_10_11
+CREATE TABLE bronze.retail_transaction_10_11
+(
+    invoice_no              VARCHAR(50),
+    stock_code              VARCHAR(50),
+    product_description     VARCHAR(50),
+    quantity                INT,
+    invoice_date            VARCHAR(50),
+    unit_price              VARCHAR(50),
+    customerID              INT,
+    country                 VARCHAR(50)
+);
+
+
+-- 2 retail_transaction_10_11
+TRUNCATE TABLE bronze.retail_transaction_10_11;
+
+BULK INSERT bronze.retail_transaction_10_11
+FROM 'C:\sql\DataWarehouseProject\online_retail\online_retail_09_10.csv'
+WITH
+(
+	FIRSTROW = 2,
+	FIELDTERMINATOR = ',',
+	TABLOCK
+);
+-------------------------------------------------------------------------
