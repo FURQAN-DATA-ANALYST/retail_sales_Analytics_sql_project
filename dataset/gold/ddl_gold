@@ -1,5 +1,6 @@
+--========================================================
 -- DDL Gold Layer
-
+--========================================================
 CREATE OR ALTER VIEW gold.vw_retail_transactions AS
 SELECT
     customerID,
@@ -24,7 +25,7 @@ SELECT
     unit_price,
     country
 FROM silver.retail_transaction_10_11;
-
+--========================================================
 CREATE VIEW gold.cust_info AS
 SELECT DISTINCT
     customerID,
@@ -33,7 +34,7 @@ SELECT DISTINCT
     stock_code
 FROM gold.vw_retail_transactions
 WHERE customerID IS NOT NULL;
-
+--========================================================
 CREATE OR ALTER VIEW gold.prd_info AS
 SELECT
     customerID,
@@ -45,10 +46,10 @@ SELECT
     country
 FROM gold.vw_retail_transactions
 WHERE quantity > 0;
-
+--========================================================
 SELECT *
 FROM gold.prd_info
-
+--========================================================
 CREATE OR ALTER VIEW gold.customer_sales_summary AS
 SELECT
     customerID,
@@ -58,7 +59,7 @@ SELECT
 FROM gold.vw_retail_transactions
 WHERE customerID IS NOT NULL
 GROUP BY customerID;
-
+--========================================================
 CREATE OR ALTER VIEW gold.product_sales_summary AS
 SELECT
     stock_code,
@@ -69,3 +70,4 @@ FROM gold.vw_retail_transactions
 GROUP BY
     stock_code,
     product_description;
+--========================================================
