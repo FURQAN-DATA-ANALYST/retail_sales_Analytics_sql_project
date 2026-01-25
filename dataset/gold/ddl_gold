@@ -1,0 +1,71 @@
+-- DDL Gold Layer
+
+CREATE OR ALTER VIEW gold.vw_retail_transactions AS
+SELECT
+    customerID,
+    invoice_no,
+    invoice_date,
+    stock_code,
+    product_description,
+    quantity,
+    unit_price,
+    country
+FROM silver.retail_transaction_09_10
+
+UNION ALL
+
+SELECT
+    customerID,
+    invoice_no,
+    invoice_date,
+    stock_code,
+    product_description,
+    quantity,
+    unit_price,
+    country
+FROM silver.retail_transaction_10_11;
+
+CREATE VIEW gold.cust_info AS
+SELECT DISTINCT
+    customerID,
+    invoice_no,
+    invoice_date,
+    stock_code
+FROM gold.vw_retail_transactions
+WHERE customerID IS NOT NULL;
+
+CREATE OR ALTER VIEW gold.prd_info AS
+SELECT
+    customerID,
+    stock_code,
+    product_description,
+    quantity,
+    unit_price,
+    quantity * unit_price AS total_sales,
+    country
+FROM gold.vw_retail_transactions
+WHERE quantity > 0;
+
+SELECT *
+FROM gold.prd_info
+
+CREATE OR ALTER VIEW gold.customer_sales_summary AS
+SELECT
+    customerID,
+    COUNT(DISTINCT invoice_no) AS total_invoices,
+    SUM(quantity) AS total_units_sold,
+    SUM(quantity * unit_price) AS total_spend
+FROM gold.vw_retail_transactions
+WHERE customerID IS NOT NULL
+GROUP BY customerID;
+
+CREATE OR ALTER VIEW gold.product_sales_summary AS
+SELECT
+    stock_code,
+    product_description,
+    SUM(quantity) AS total_units_sold,
+    SUM(quantity * unit_price) AS total_revenue
+FROM gold.vw_retail_transactions
+GROUP BY
+    stock_code,
+    product_description;
